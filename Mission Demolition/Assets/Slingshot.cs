@@ -8,6 +8,7 @@ public class Slingshot : MonoBehaviour
     [Header("Inscribed")]
     public GameObject projectilePrefab;
     public float velocityMult = 10f;
+
     //fields set dynamically
     [Header("Dynamic")]
     public GameObject launchPoint;
@@ -56,7 +57,7 @@ public class Slingshot : MonoBehaviour
 
  // Find the delta from the launchPos to the mousePos3D
  Vector3 mouseDelta = mousePos3D - launchPos;
- // Limit mouseDelta to the radius of the Slingshot SphereCollider //
+
  float maxMagnitude = this.GetComponent<SphereCollider>().radius;
  if (mouseDelta.magnitude > maxMagnitude)
         {
@@ -67,15 +68,16 @@ public class Slingshot : MonoBehaviour
  Vector3 projPos = launchPos + mouseDelta;
  projectile.transform.position = projPos;
 
- if (Input.GetMouseButtonUp(0))
-        { // This 0 is a zero, not an o //
- // The mouse has been released
- aimingMode = false;
- Rigidbody projRB = projectile.GetComponent<Rigidbody>();
- projRB.isKinematic = false; //
- projRB.collisionDetectionMode = CollisionDetectionMode.Continuous;
- projRB.velocity = -mouseDelta * velocityMult;
- projectile = null; //
- }
+     if (Input.GetMouseButtonUp(0))
+     { 
+     // The mouse has been released
+     aimingMode = false;
+     Rigidbody projRB = projectile.GetComponent<Rigidbody>();
+     projRB.isKinematic = false;
+     projRB.collisionDetectionMode = CollisionDetectionMode.Continuous;
+     projRB.velocity = -mouseDelta * velocityMult;
+     FollowCam.POI = projectile;
+     projectile = null; 
+     }
     }
 }
